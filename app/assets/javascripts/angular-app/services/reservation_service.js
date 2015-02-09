@@ -30,19 +30,16 @@ angular.module('angularApp.services')
       },
       save: function(reservation) {
         if (reservation.id) {
+          Restangular.restangularizeElement('', reservation, 'reservations')
           return reservation.put().then(function() {
-            reservations[reservation.id] = reservation;
             return reservation;
           });
         } else {
-          return service.post(reservation).then(function(new_user) {
-            reservations[new_user.id] = new_user;
-            return new_user;
+          return service.post(reservation).then(function(reservation) {
+            reservations[reservation.id] = reservation;
+            return reservation;
           })
         }
-      },
-      delete: function(id) {
-        return service.remove(id);
       }
     };
   }

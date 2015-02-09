@@ -11,7 +11,7 @@
           <span class="form-icon icon-account-box" flex="10"></span>
           <md-input-container flex>
             <label for="input-1">Vehicle Name</label>
-            <input id="input-1" type="input" name="name" ng-model="vehicle.name" required>
+            <input id="input-1" type="input" name="name" ng-model="vehicle.name" required ng-disabled="reservation.id">
           </md-input-container>
         </div>
         <div flex layout="row" layout-align="center center" class="content-padded" required>

@@ -4,7 +4,7 @@ class VehiclesController < ApplicationController
   # GET /vehicles
   # GET /vehicles.json
   def index
-    @vehicles = Vehicle.with_reservation_detail
+    @vehicles = Vehicle.all
 
     render json: @vehicles
   end
@@ -50,7 +50,7 @@ class VehiclesController < ApplicationController
   private
 
     def set_vehicle
-      @vehicle = Vehicle.find_with_reservation_detail(params[:id])
+      @vehicle = Vehicle.find(params[:id])
     end
 
     def vehicle_params

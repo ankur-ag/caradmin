@@ -19,20 +19,20 @@
       <div flex="40" flex-order-sm="2">
         <md-content>
           <md-list>
-            <md-item ng-repeat="item in vehicles track by item.id">
+            <md-item ng-repeat="v in vehicles track by v.id">
               <md-item-content>
                 <div class="md-tile-left">
                   <img ng-src="http://i.imgur.com/L90ERLO.jpg?2" class="face" alt="Toyota Prius">
                 </div>
                 <div class="md-tile-content">
-                  <h3><a ui-sref="vehicles.reservation({id: item.id, reservation_id: item.reservation_id})">{{item.name}}</a></h3>
-                  <h4>{{item.model}}</h4>
-                  <h4 ng-show="item.start_date">Reserved on {{item.start_date | formatDate}} by {{item.member_first_name}} {{item.member_last_name}}</h4>
-                  <h4 ng-show="item.occupied_at">Occupied on {{item.occupied_at | formatDate}}</h4>
-                  <h4 ng-show="item.scheduled_to_return_at">Scheduled to be returned on {{item.scheduled_to_return_at}}</h4>
-                  <h4 ng-show="item.returned_at">Returned on {{item.returned_at | formatDate}}</h4>
-                  <a ui-sref="vehicles.reservation({id: item.id, reservation_id: item.reservation_id})">
-                    <md-button class="md-primary">{{ item.reservation_id ? "Update" : "Add"}}</md-button>
+                  <h3><a ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">{{v.name}}</a></h3>
+                  <h4>{{v.model}}</h4>
+                  <h4 ng-show="v.reservation.start_date">Reserved on {{v.reservation.start_date}} by {{v.reservation.member.name}}</h4>
+                  <h4 ng-show="v.reservation.occupied_at">Occupied on {{v.reservation.occupied_at}}</h4>
+                  <h4 ng-show="v.reservation.scheduled_to_return_at">Scheduled to be returned on {{v.reservation.scheduled_to_return_at}}</h4>
+                  <h4 ng-show="v.reservation.returned_at">Returned on {{v.reservation.returned_at}}</h4>
+                  <a ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
+                    <md-button class="md-primary">{{ v.reservation ? "Update" : "Add"}}</md-button>
                   </a>
                   <core-icon src="//www.polymer-project.org/images/icons/android.svg"></core-icon>
                 </div>

@@ -26,8 +26,8 @@ angular.module('angularApp', [
         })
         .state('vehicles.reservation', {
           url: "/:id/reservations/:reservation_id",
-          templateUrl: "create_reservation.html",
-          controller: "ReservationsCtrl"
+          templateUrl: "reservation_form.html",
+          controller: "ReservationFormCtrl"
         })
     }
   ]);
