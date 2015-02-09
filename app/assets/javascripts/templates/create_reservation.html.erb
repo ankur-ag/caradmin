@@ -1,0 +1,62 @@
+<md-whiteframe class="md-whiteframe-z1" layout-fill>
+  <md-toolbar class="md-tall md-accent">
+    <h2 class="md-toolbar-tools">
+              <span>{{ reservation.id ? "Update Reservation" : "New Reservation"}}</span>
+            </h2>
+  </md-toolbar>
+  <div>
+    <form class="form-default" name="reservation_form" novalidate ng-submit="submit(reservation_form.$valid)">
+      <fieldset layout="column">
+        <div flex layout="row" layout-align="center center" class="content-padded">
+          <span class="form-icon icon-account-box" flex="10"></span>
+          <md-input-container flex>
+            <label for="input-1">Vehicle Name</label>
+            <input id="input-1" type="input" name="name" ng-model="vehicle.name" required>
+          </md-input-container>
+        </div>
+        <div flex layout="row" layout-align="center center" class="content-padded" required>
+          <span class="form-icon icon-phone" flex="10"></span>
+          <md-input-container flex>
+            <label for="input-1">Member Email</label>
+            <input id="input-1" type="input" name="email" ng-model="member.email" ng-blur="validateEmail()" ng-disabled="reservation.id">
+          </md-input-container>
+        </div>
+        <div flex layout="row" layout-align="center center" class="content-padded" required>
+          <span class="form-icon icon-phone" flex="10"></span>
+          <md-input-container flex>
+            <label for="input-1">Start Date</label>
+            <input id="input-1" type="input" name="start_date" ng-model="reservation.start_date">
+          </md-input-container>
+        </div>
+        <div ng-if="reservation.id">
+          <div flex layout="row" layout-align="center center" class="content-padded" required>
+            <span class="form-icon icon-phone" flex="10"></span>
+            <md-input-container flex>
+              <label for="input-1">Occupied on</label>
+              <input id="input-1" type="input" name="occupied_at" ng-model="reservation.occupied_at">
+            </md-input-container>
+          </div>
+          <div flex layout="row" layout-align="center center" class="content-padded" required>
+            <span class="form-icon icon-phone" flex="10"></span>
+            <md-input-container flex>
+              <label for="input-1">Scheduled to return on</label>
+              <input id="input-1" type="input" name="scheduled_return_at" ng-model="reservation.scheduled_return_at">
+            </md-input-container>
+          </div>
+          <div flex layout="row" layout-align="center center" class="content-padded" required>
+            <span class="form-icon icon-phone" flex="10"></span>
+            <md-input-container flex>
+              <label for="input-1">Returned on</label>
+              <input id="input-1" type="input" name="returned_at" ng-model="reservation.returned_at">
+            </md-input-container>
+          </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="row" class="leaf-md-actions" class="content-padded">
+          <md-button ng-click="closeView()">Cancel</md-button>
+          <md-button class="md-primary">Save</md-button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</md-whiteframe>

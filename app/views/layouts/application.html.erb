@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Breeze</title>
+  <meta name="viewport" content="width=device-width" />
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%# this prevents pageviews being counted towards our license in development %>
+  <% if Rails.env != "development" %>
+    <script async src="//hello.myfonts.net/count/2bd5fd"></script>
+  <% end %>
+
+  <script type="text/javascript" src="//use.typekit.net/gnm2zby.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <link rel="import" href="/bower_components/core-icons/maps-icons.html">
+
+  <%= csrf_meta_tags %>
+</head>
+<body layout="row" <%= content_for :'ng-app' %>>
+
+<%= yield %>
+
+</body>
+</html>
