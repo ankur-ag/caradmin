@@ -51,7 +51,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="v in vehicles | filter: filterFunction |orderBy:orderByField:reverseSort" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
+          <tr ng-repeat="v in vehicles | filter: filterFunction |orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
             <td>
               {{v.id}}
             </td>

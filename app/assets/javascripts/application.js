@@ -1,3 +1,4 @@
+//= require jquery
 //= require underscore
 //= require bootstrap-sprockets
 //= require angular/angular
