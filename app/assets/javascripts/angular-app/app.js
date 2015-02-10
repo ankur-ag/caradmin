@@ -8,7 +8,8 @@ angular.module('angularApp', [
     'angularApp.services',
     'angularApp.directives',
     'angularApp.filters',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.bootstrap.showErrors'
   ])
   .config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',
     function($stateProvider, $urlRouterProvider, RestangularProvider) {
@@ -19,7 +20,7 @@ angular.module('angularApp', [
         .state('vehicles', {
           url: "/vehicles",
           templateUrl: "index.html",
-          controller: "HomeCtrl"
+          controller: "VehicleListCtrl"
         })
         .state('vehicles.reservation', {
           url: "/:id/reservations/:reservation_id",
@@ -37,7 +38,7 @@ angular.module('angularApp', [
 
 angular.module('angularApp.directives', []);
 angular.module('angularApp.controllers', []);
-angular.module('angularApp.services', ['restangular']);
+angular.module('angularApp.services', ['restangular', 'ngToast']);
 angular.module('angularApp.filters', [])
   .filter('formatDate', ['$filter', function($filter) {
     return function(input) {

@@ -17,7 +17,12 @@ angular.module('angularApp.services')
         getOne: function(id) {
           var deferred = $q.defer();
           service.one(id).get().then(function(vehicle) {
-            vehicles[vehicle.id] = vehicle;
+            angular.forEach(vehicles, function(v, index) {
+              if (v.id === vehicle.id) {
+                vehicles[index] = vehicle;
+                console.log(vehicle);
+              }
+            });
             deferred.resolve(vehicle);
           }, function(response) {
             deferred.reject(response);

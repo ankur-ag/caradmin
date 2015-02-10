@@ -20,9 +20,7 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
       $scope.member = member;
       $scope.reservation.member_id = member.id;
     }, function(error) {
-      $mdToast.show({
-        template: "<md-toast>Invalid Email!</md-toast>"
-      });
+      ToastService.show("Member not found!");
     });
   }
 
@@ -30,6 +28,7 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
     if (valid) {
       ReservationService.save($scope.reservation).then(function(reservation) {
         $scope.vehicle.reservation = reservation;
+        VehicleService.getOne(reservation.vehicle_id);
         if (reservation.returned_at) {
           ToastService.show("Reservation completed!");
         } else {

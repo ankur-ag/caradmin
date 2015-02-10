@@ -1,18 +1,22 @@
 angular.module('angularApp.services')
   .factory('ToastService', ToastService);
 
-function ToastService() {
+ToastService.$inject = ['ngToast'];
+
+function ToastService(ngToast) {
   return {
     show: function(message) {
       if (message != "") {
         if (typeof message == 'string') {
-          console.log({
-            template: "<md-toast>" + message + "</md-toast>"
+          ngToast.create({
+            content: message
           });
         } else {
           angular.forEach(message, function(value, key) {
-            console.log({
-              template: "<md-toast>" + key + ": " + value + "</md-toast>"
+            var msg = key + ": " + value;
+            ngToast.create({
+              content: msg,
+              className: "danger"
             });
           });
         }

@@ -2,12 +2,16 @@
 //= require underscore
 //= require bootstrap-sprockets
 //= require angular/angular
+//= require angular-animate/angular-animate
+//= require angular-sanitize/angular-sanitize
 //= require angular-messages/angular-messages
 //= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-rails-templates
 //= require angular-ui-router
 //= require angular-ui-utils/ui-utils
 //= require restangular
+//= require ngtoast
+//= require angular-bootstrap-show-errors/src/showErrors.min
 
 //= require ./angular-app/app
 //= require_tree ./templates
