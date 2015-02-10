@@ -8,7 +8,8 @@ angular.module('angularApp', [
     'angularApp.controllers',
     'angularApp.services',
     'angularApp.directives',
-    'angularApp.filters'
+    'angularApp.filters',
+    'customServices'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', 'RestangularProvider',
     function($stateProvider, $urlRouterProvider, $mdThemingProvider, RestangularProvider) {

@@ -8,7 +8,7 @@
 //= require angular-ui-router
 //= require angular-ui-utils/ui-utils
 //= require restangular
-
+//= require services
 
 //= require ./angular-app/app
 //= require_tree ./templates
