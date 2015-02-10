@@ -6,12 +6,12 @@ function ToastService() {
     show: function(message) {
       if (message != "") {
         if (typeof message == 'string') {
-          alert({
+          console.log({
             template: "<md-toast>" + message + "</md-toast>"
           });
         } else {
           angular.forEach(message, function(value, key) {
-            alert({
+            console.log({
               template: "<md-toast>" + key + ": " + value + "</md-toast>"
             });
           });

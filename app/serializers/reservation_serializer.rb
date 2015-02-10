@@ -3,22 +3,22 @@ class ReservationSerializer < ActiveModel::Serializer
   has_one :member
 
   def end_date
-  	object.end_date.try(:to_date)
+  	object.end_date
   end
 
   def start_date
-  	object.start_date.try(:to_date)
+  	object.start_date
   end
 
   def occupied_at
-  	object.occupied_at.try(:to_date)
+  	object.occupied_at
   end
 
   def scheduled_to_return_at
-  	object.scheduled_to_return_at.try(:to_date)
+  	object.scheduled_to_return_at
   end
 
   def returned_at
-  	object.returned_at.try(:to_date)
+  	object.returned_at
   end
 end

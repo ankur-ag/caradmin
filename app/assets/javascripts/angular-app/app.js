@@ -23,8 +23,14 @@ angular.module('angularApp', [
         })
         .state('vehicles.reservation', {
           url: "/:id/reservations/:reservation_id",
-          templateUrl: "reservation_form.html",
-          controller: "ReservationFormCtrl"
+          onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+            $modal.open({
+              templateUrl: "reservation_form.html",
+              controller: ReservationFormCtrl
+            }).result.finally(function() {
+              $state.go('^');
+            });
+          }]
         })
     }
   ]);
@@ -32,10 +38,13 @@ angular.module('angularApp', [
 angular.module('angularApp.directives', []);
 angular.module('angularApp.controllers', []);
 angular.module('angularApp.services', ['restangular']);
-angular.module('angularApp.filters',[])
-.filter('formatDate', ['$filter', function($filter){
-  return function(text){
-    var  tempdate = new Date(text.substring(0,10));
-    return $filter('date')(tempdate, "MM-dd-yyyy");
-  }
-}]);
+angular.module('angularApp.filters', [])
+  .filter('formatDate', ['$filter', function($filter) {
+    return function(input) {
+      if (input == null) {
+        return "";
+      }
+      var _date = $filter('date')(new Date(input), 'MM-dd-yyyy');
+      return _date;
+    };
+  }]);

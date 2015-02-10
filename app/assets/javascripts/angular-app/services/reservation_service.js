@@ -32,6 +32,7 @@ angular.module('angularApp.services')
         if (reservation.id) {
           Restangular.restangularizeElement('', reservation, 'reservations')
           return reservation.put().then(function() {
+            reservations[reservation.id] = reservation;
             return reservation;
           });
         } else {

@@ -1,17 +1,17 @@
 angular.module('angularApp.controllers').controller('ReservationFormCtrl', ReservationFormCtrl)
-ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService']
+ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService', '$modalInstance']
 
-function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $state, $stateParams, ToastService) {
+function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $state, $stateParams, ToastService, $modalInstance) {
   $scope.vehicle = {};
   $scope.member = {};
   $scope.reservation = {};
 
   VehicleService.getOne($stateParams.id).then(function(vehicle) {
     $scope.vehicle = vehicle;
-    $scope.reservation.vehicle_id = vehicle.id;
+    $scope.reservation.vehicle_id = $scope.vehicle.id;
     if ($stateParams.reservation_id) {
-      $scope.reservation = vehicle.reservation;
-      $scope.member = vehicle.reservation.member;
+      $scope.reservation = angular.copy(vehicle.reservation);
+      $scope.member = $scope.vehicle.reservation.member;
     }
   })
 
@@ -35,14 +35,24 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
         } else {
           ToastService.show("Saved successfully!");
         }
-        $state.go("vehicles");
+        $modalInstance.dismiss('cancel');
       }, function(error) {
         ToastService.show(error.data);
       });
     }
   }
 
-  $scope.closeView = function() {
-    $state.go("vehicles");
-  }
+  $scope.open = function($event, opened) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope[opened] = true;
+  };
+
+  $scope.dateOptions = {
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 }

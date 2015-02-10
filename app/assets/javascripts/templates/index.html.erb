@@ -1,48 +1,82 @@
-<div class="page app" id="page">
-  <!-- Begin .header -->
-  <header class="header cf" role="banner">
-    <md-content>
-      <md-toolbar class="md-accent">
-        <h2 class="md-toolbar-tools">
-        <span class="header-btn-menu icon-menu" aria-label="Menu"></span>
-        <span>Breeze Admin</span>
-      </h2>
-      </md-toolbar>
-    </md-content>
-  </header>
-
-  <div>
-    <header class="block-header block-header__bordered">
-      <h1 class="md-heading-1">Cars</h1>
-    </header>
-    <section layout="column" layout-gt-sm="row" layout-margin>
-      <div flex="40" flex-order-sm="2">
-        <md-content>
-          <md-list>
-            <md-item ng-repeat="v in vehicles track by v.id">
-              <md-item-content>
-                <div class="md-tile-left">
-                  <img ng-src="http://i.imgur.com/L90ERLO.jpg?2" class="face" alt="Toyota Prius">
-                </div>
-                <div class="md-tile-content">
-                  <h3><a ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">{{v.name}}</a></h3>
-                  <h4>{{v.model}}</h4>
-                  <h4 ng-show="v.reservation.start_date">Reserved on {{v.reservation.start_date}} by {{v.reservation.member.name}}</h4>
-                  <h4 ng-show="v.reservation.occupied_at">Occupied on {{v.reservation.occupied_at}}</h4>
-                  <h4 ng-show="v.reservation.scheduled_to_return_at">Scheduled to be returned on {{v.reservation.scheduled_to_return_at}}</h4>
-                  <h4 ng-show="v.reservation.returned_at">Returned on {{v.reservation.returned_at}}</h4>
-                  <a ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
-                    <md-button class="md-primary">{{ v.reservation ? "Update" : "Add"}}</md-button>
-                  </a>
-                  <core-icon src="//www.polymer-project.org/images/icons/android.svg"></core-icon>
-                </div>
-              </md-item-content>
-            </md-item>
-          </md-list>
-        </md-content>
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a href="#">Profile</a>
+        </li>
+        <li>
+          <a href="#">Messages</a>
+        </li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn btn-default" ng-model="filterBy" btn-radio="'All'" type="button">All</button>
+        <button class="btn btn-default" ng-model="filterBy" btn-radio="'UnReserved'" type="button">Unreserved</button>
+        <button class="btn btn-default" ng-model="filterBy" btn-radio="'Reserved'" type="button">Reserved</button>
+        <button class="btn btn-default" ng-model="filterBy" btn-radio="'PendingPickup'" type="button">Pending Pickup</button>
+        <button class="btn btn-default" ng-model="filterBy" btn-radio="'PendingReturn'" type="button">Pending Return</button>
       </div>
-      <div flex="45" flex-gt-md="40" flex-order-sm="3" layout="row" layout-align="center" class="block-negative-vert-offset" ui-view>
-      </div>
-    </section>
+      <table class="table">
+        <thead>
+          <tr>
+            <th data-field="id" data-align="right" data-sortable="true">
+              #ID
+            </th>
+            <th ng-click="orderByField='name'; reverseSort = !reverseSort">
+              Car Name <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span>
+              <span ng-show="reverseSort">v</span>
+            </th>
+            <th ng-click="orderByField='model'; reverseSort = !reverseSort">
+              Car Model <span ng-show="orderByField == 'model'"><span ng-show="!reverseSort">^</span>
+              <span ng-show="reverseSort">v</span>
+            </th>
+            <th ng-click="orderByField='reservation.member.email'; reverseSort = !reverseSort">
+              Customer Email <span ng-show="orderByField == 'reservation.member.email'"><span ng-show="!reverseSort">^</span>
+              <span ng-show="reverseSort">v</span>
+            </th>
+            <th ng-click="orderByField='reservation.start_date'; reverseSort = !reverseSort">
+              Reserved From <span ng-show="orderByField == 'reservation.start_date'"><span ng-show="!reverseSort">^</span>
+              <span ng-show="reverseSort">v</span>
+            </th>
+            <th ng-click="orderByField='reservation.occupied_at'; reverseSort = !reverseSort">
+              Occupied On <span ng-show="orderByField == 'reservation.occupied_at'"><span ng-show="!reverseSort">^</span>
+              <span ng-show="reverseSort">v</span>
+            </th>
+            <th ng-click="orderByField='reservation.scheduled_to_return_at'; reverseSort = !reverseSort">
+              To be returned on <span ng-show="orderByField == 'reservation.scheduled_to_return_at'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="v in vehicles | filter: filterFunction |orderBy:orderByField:reverseSort" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
+            <td>
+              {{v.id}}
+            </td>
+            <td>
+              {{v.name}}
+            </td>
+            <td>
+              {{v.model}}
+            </td>
+            <td>
+              {{v.reservation.member.email}}
+            </td>
+            <td>
+              {{v.reservation.start_date | formatDate}}
+            </td>
+            <td>
+              {{v.reservation.occupied_at | formatDate}}
+            </td>
+            <td>
+              {{v.reservation.scheduled_to_return_at | formatDate}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+<div ui-view></div>
