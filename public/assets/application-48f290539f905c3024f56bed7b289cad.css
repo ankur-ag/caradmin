@@ -8680,3 +8680,23 @@ button.close {
 .ng-toast .ng-move.ng-move-active {
   opacity: 1;
 }
+
+/* line 5, /Users/ankur/github/caradmin/app/assets/stylesheets/application.css.scss */
+.padding-left {
+  padding: 20px 0px 0px 20px;
+}
+
+/* line 9, /Users/ankur/github/caradmin/app/assets/stylesheets/application.css.scss */
+section {
+  padding: 70px 0;
+}
+
+/* line 13, /Users/ankur/github/caradmin/app/assets/stylesheets/application.css.scss */
+.navbar-default {
+  background-color: #333;
+}
+
+/* line 17, /Users/ankur/github/caradmin/app/assets/stylesheets/application.css.scss */
+.brand-color {
+  color: #fff !important;
+}
