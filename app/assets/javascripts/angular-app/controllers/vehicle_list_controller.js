@@ -12,15 +12,15 @@ function HomeCtrl($scope, VehicleService, $state) {
   });
 
   $scope.filterFunction = function(vehicle) {
-    if ($scope.filterBy == "UnReserved" && !vehicle.reservation) {
+    if ($scope.filterBy == "All") {
+      return true;
+    } else if ($scope.filterBy == "UnReserved" && !vehicle.reservation) {
       return true;
     } else if ($scope.filterBy == "Reserved" && vehicle.reservation) {
       return true;
     } else if ($scope.filterBy == "PendingPickup" && vehicle.reservation && !vehicle.reservation.occupied_at) {
       return true;
-    } else if ($scope.filterBy == "PendingReturn" && vehicle.reservation && !vehicle.reservation.scheduled_to_return_at) {
-      return true;
-    } else if ($scope.filterBy == "All") {
+    } else if ($scope.filterBy == "PendingReturn" && vehicle.reservation && vehicle.reservation.occupied_at && !vehicle.reservation.returned_at) {
       return true;
     } else {
       return false;
