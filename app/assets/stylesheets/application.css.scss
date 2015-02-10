@@ -1,3 +1,19 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "ngtoast/dist/ngToast";
+
+.padding-left {
+	padding: 20px 0px 0px 20px;
+}
+
+section {
+	padding: 70px 0;
+}
+
+.navbar-default{
+	background-color: #333;
+}
+
+.brand-color{
+	color: #fff !important;	
+}

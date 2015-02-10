@@ -16,8 +16,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body layout="row" ng-app="angularApp" >
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+          <div class="navbar-header page-scroll">
+              <a class="navbar-brand brand-color" href="#page-top">CAR ADMIN</a>
+          </div>
+      </div>
+  </nav>
+  
+<section>
 <toast></toast>
 <%= yield %>
-
+</section>
 </body>
 </html>
