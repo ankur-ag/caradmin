@@ -1,7 +1,7 @@
 angular.module('angularApp.controllers').controller('ReservationFormCtrl', ReservationFormCtrl)
-ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$mdToast', '$state', '$stateParams', '$mdSidenav', 'ToastService']
+ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService']
 
-function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $mdToast, $state, $stateParams, $mdSidenav, ToastService) {
+function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $state, $stateParams, ToastService) {
   $scope.vehicle = {};
   $scope.member = {};
   $scope.reservation = {};

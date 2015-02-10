@@ -1,6 +1,5 @@
 angular.module('angularApp', [
     'templates',
-    'ngMaterial',
     'ngMessages',
     'ui.router',
     'ui.utils',
@@ -9,14 +8,11 @@ angular.module('angularApp', [
     'angularApp.services',
     'angularApp.directives',
     'angularApp.filters',
-    'customServices'
+    'ui.bootstrap'
   ])
-  .config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', 'RestangularProvider',
-    function($stateProvider, $urlRouterProvider, $mdThemingProvider, RestangularProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',
+    function($stateProvider, $urlRouterProvider, RestangularProvider) {
       RestangularProvider.setRequestSuffix('.json');
-      $mdThemingProvider.theme('default')
-        .primaryPalette('blue')
-        .accentPalette('light-blue');
 
       $urlRouterProvider.otherwise("/vehicles");
       $stateProvider

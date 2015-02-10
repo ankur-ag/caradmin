@@ -1,14 +1,11 @@
 //= require underscore
 //= require angular/angular
-//= require angular-aria/angular-aria
 //= require angular-messages/angular-messages
-//= require angular-animate/angular-animate
-//= require angular-material/angular-material
+//= require angular-bootstrap/ui-bootstrap-tpls
 //= require angular-rails-templates
 //= require angular-ui-router
 //= require angular-ui-utils/ui-utils
 //= require restangular
-//= require services
 
 //= require ./angular-app/app
 //= require_tree ./templates
