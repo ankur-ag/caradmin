@@ -1,4 +1,5 @@
 //= require underscore
+//= require bootstrap-sprockets
 //= require angular/angular
 //= require angular-messages/angular-messages
 //= require angular-bootstrap/ui-bootstrap-tpls
