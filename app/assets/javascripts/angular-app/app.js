@@ -22,9 +22,9 @@ angular.module('angularApp', [
           templateUrl: "index.html",
           controller: "VehicleListCtrl",
           resolve: {
-            vehicles: function(VehicleService){
+            vehicles: ['VehicleService', function(VehicleService){
               return VehicleService.getList();
-            }
+            }]
           }
         })
         .state('vehicles.reservation', {
@@ -34,9 +34,9 @@ angular.module('angularApp', [
               templateUrl: "reservation_form.html",
               controller: ReservationFormCtrl,
               resolve: {
-                vehicle: function(VehicleService) {
+                vehicle: ['VehicleService', function(VehicleService) {
                   return VehicleService.getOne($stateParams.id);
-                }
+                }]
               }
             }).result.finally(function() {
               $state.go('^');
@@ -48,9 +48,9 @@ angular.module('angularApp', [
           templateUrl: "history.html",
           controller: "PastReservationsCtrl",
           resolve: {
-            reservations: function(ReservationService) {
+            reservations: ['ReservationService', function(ReservationService) {
               return ReservationService.history();
-            }
+            }]
           }
         })
         .state('analytics', {
