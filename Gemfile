@@ -50,5 +50,5 @@ gem 'angular-rails-templates'
 gem 'angular_rails_csrf'
 gem 'bower-rails'
 gem 'active_model_serializers'
-gem 'thin'
+gem 'unicorn'
 
