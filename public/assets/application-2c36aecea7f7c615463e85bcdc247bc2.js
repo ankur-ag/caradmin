@@ -55627,6 +55627,16 @@ angular.module('angularApp', [
             });
           }]
         })
+        .state('history', {
+          url: "/history",
+          templateUrl: "history.html",
+          controller: "PastReservationsCtrl"
+        })
+        .state('analytics', {
+          url: "/analytics",
+          templateUrl: "analytics.html",
+          controller: "AnalyticsCtrl"
+        })
     }
   ]);
 
@@ -55644,10 +55654,24 @@ angular.module('angularApp.filters', [])
     };
   }]);
 // Angular Rails Template
+// source: app/assets/javascripts/templates/analytics.html.erb
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("analytics.html", "<p>TO DO</p>")
+}]);
+
+// Angular Rails Template
+// source: app/assets/javascripts/templates/history.html.erb
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("history.html", '<div class="table-responsive">\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th data-field="id" data-align="right" data-sortable="true">\n          #ID\n        </th>\n        <th ng-click="orderByField=\'name\'; reverseSort = !reverseSort">\n          Car Name <span ng-show="orderByField == \'name\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'model\'; reverseSort = !reverseSort">\n          Car Model <span ng-show="orderByField == \'model\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.member.email\'; reverseSort = !reverseSort">\n          Customer Email <span ng-show="orderByField == \'reservation.member.email\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.start_date\'; reverseSort = !reverseSort">\n          Reserved From <span ng-show="orderByField == \'reservation.start_date\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.occupied_at\'; reverseSort = !reverseSort">\n          Occupied On <span ng-show="orderByField == \'reservation.occupied_at\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.scheduled_to_return_at\'; reverseSort = !reverseSort">\n          To be returned on <span ng-show="orderByField == \'reservation.scheduled_to_return_at\'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>\n        </th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr ng-repeat="v in reservations | orderBy:orderByField:reverseSort track by v.id" ng-click="select($index)" ng-class="{active: $index == selected}">\n        <td>\n          {{v.vehicle.id}}\n        </td>\n        <td>\n          {{v.vehicle.name}}\n        </td>\n        <td>\n          {{v.vehicle.model}}\n        </td>\n        <td>\n          {{v.member.email}}\n        </td>\n        <td>\n          {{v.start_date | formatDate}}\n        </td>\n        <td>\n          {{v.occupied_at | formatDate}}\n        </td>\n        <td>\n          {{v.scheduled_to_return_at | formatDate}}\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>')
+}]);
+
+// Angular Rails Template
 // source: app/assets/javascripts/templates/index.html.erb
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("index.html", '<div class="container">\n  <div class="row clearfix">\n    <div class="col-md-12 column">\n      <ul class="nav nav-tabs padding-top">\n        <li class="active">\n          <a href="#">Reservations</a>\n        </li>\n        <li>\n          <a href="#">History</a>\n        </li>\n        <li>\n          <a href="#">Analytics</a>\n        </li>\n      </ul>\n\n      <div class="btn-group padding-left">\n        <button class="btn btn-default" ng-model="filterBy" btn-radio="\'All\'" type="button">All</button>\n        <button class="btn btn-default" ng-model="filterBy" btn-radio="\'UnReserved\'" type="button">Unreserved</button>\n        <button class="btn btn-default" ng-model="filterBy" btn-radio="\'Reserved\'" type="button">Reserved</button>\n        <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingPickup\'" type="button">Pending Pickup</button>\n        <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingReturn\'" type="button">Pending Return</button>\n      </div>\n      <div class="table-responsive">\n        <table class="table table-hover">\n          <thead>\n            <tr>\n              <th data-field="id" data-align="right" data-sortable="true">\n                #ID\n              </th>\n              <th ng-click="orderByField=\'name\'; reverseSort = !reverseSort">\n                Car Name <span ng-show="orderByField == \'name\'"><span ng-show="!reverseSort">^</span>\n                <span ng-show="reverseSort">v</span>\n              </th>\n              <th ng-click="orderByField=\'model\'; reverseSort = !reverseSort">\n                Car Model <span ng-show="orderByField == \'model\'"><span ng-show="!reverseSort">^</span>\n                <span ng-show="reverseSort">v</span>\n              </th>\n              <th ng-click="orderByField=\'reservation.member.email\'; reverseSort = !reverseSort">\n                Customer Email <span ng-show="orderByField == \'reservation.member.email\'"><span ng-show="!reverseSort">^</span>\n                <span ng-show="reverseSort">v</span>\n              </th>\n              <th ng-click="orderByField=\'reservation.start_date\'; reverseSort = !reverseSort">\n                Reserved From <span ng-show="orderByField == \'reservation.start_date\'"><span ng-show="!reverseSort">^</span>\n                <span ng-show="reverseSort">v</span>\n              </th>\n              <th ng-click="orderByField=\'reservation.occupied_at\'; reverseSort = !reverseSort">\n                Occupied On <span ng-show="orderByField == \'reservation.occupied_at\'"><span ng-show="!reverseSort">^</span>\n                <span ng-show="reverseSort">v</span>\n              </th>\n              <th ng-click="orderByField=\'reservation.scheduled_to_return_at\'; reverseSort = !reverseSort">\n                To be returned on <span ng-show="orderByField == \'reservation.scheduled_to_return_at\'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>\n              </th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" ng-click="select($index)" ng-class="{active: $index == selected}">\n              <td>\n                {{v.id}}\n              </td>\n              <td>\n                {{v.name}}\n              </td>\n              <td>\n                {{v.model}}\n              </td>\n              <td>\n                {{v.reservation.member.email}}\n              </td>\n              <td>\n                {{v.reservation.start_date | formatDate}}\n              </td>\n              <td>\n                {{v.reservation.occupied_at | formatDate}}\n              </td>\n              <td>\n                {{v.reservation.scheduled_to_return_at | formatDate}}\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n</div>\n<div ui-view></div>')
+  $templateCache.put("index.html", '<div class="btn-group padding-left">\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'All\'" type="button">All</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'UnReserved\'" type="button">Unreserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'Reserved\'" type="button">Reserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingPickup\'" type="button">Pending Pickup</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingReturn\'" type="button">Pending Return</button>\n</div>\n<div class="table-responsive">\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th data-field="id" data-align="right" data-sortable="true">\n          #ID\n        </th>\n        <th ng-click="orderByField=\'name\'; reverseSort = !reverseSort">\n          Car Name <span ng-show="orderByField == \'name\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'model\'; reverseSort = !reverseSort">\n          Car Model <span ng-show="orderByField == \'model\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.member.email\'; reverseSort = !reverseSort">\n          Customer Email <span ng-show="orderByField == \'reservation.member.email\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.start_date\'; reverseSort = !reverseSort">\n          Reserved From <span ng-show="orderByField == \'reservation.start_date\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.occupied_at\'; reverseSort = !reverseSort">\n          Occupied On <span ng-show="orderByField == \'reservation.occupied_at\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.scheduled_to_return_at\'; reverseSort = !reverseSort">\n          To be returned on <span ng-show="orderByField == \'reservation.scheduled_to_return_at\'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>\n        </th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" ng-click="select($index)" ng-class="{active: $index == selected}">\n        <td>\n          {{v.id}}\n        </td>\n        <td>\n          {{v.name}}\n        </td>\n        <td>\n          {{v.model}}\n        </td>\n        <td>\n          {{v.reservation.member.email}}\n        </td>\n        <td>\n          {{v.reservation.start_date | formatDate}}\n        </td>\n        <td>\n          {{v.reservation.occupied_at | formatDate}}\n        </td>\n        <td>\n          {{v.reservation.scheduled_to_return_at | formatDate}}\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n<div ui-view></div>')
 }]);
 
 // Angular Rails Template
@@ -55760,6 +55784,13 @@ angular.module('angularApp.services')
           });
           return deferred.promise;
         },
+        history: function() {
+          var deferred = $q.defer();
+          Restangular.all("reservations").customGET("history").then(function(reservations) {
+            deferred.resolve(reservations);
+          });
+          return deferred.promise;
+        },
         getOne: function(id) {
           var deferred = $q.defer();
 
@@ -55794,7 +55825,6 @@ angular.module('angularApp.services')
 
       return {
         getList: function() {
-          var list = [];
           var deferred = $q.defer();
           service.getList().then(function(all_vehicles) {
             vehicles = all_vehicles;
@@ -55831,6 +55861,45 @@ angular.module('angularApp.services')
       };
     }
   ])
+;
+angular.module('angularApp.controllers').controller('AnalyticsCtrl', AnalyticsCtrl);
+AnalyticsCtrl.$inject = ['$scope', '$location'];
+
+function AnalyticsCtrl($scope, $location) {
+  $scope.$parent.path = $location.path();
+}
+;
+angular.module('angularApp.controllers').controller('HeaderCtrl', HeaderCtrl);
+HeaderCtrl.$inject = ['$scope', '$location'];
+
+function HeaderCtrl($scope, $location) {
+  $scope.path = $location.path();
+}
+;
+angular.module('angularApp.controllers').controller('PastReservationsCtrl', PastReservationsCtrl);
+PastReservationsCtrl.$inject = ['$scope', 'ReservationService', '$state', '$location'];
+
+function PastReservationsCtrl($scope, ReservationService, $state, $location) {
+  $scope.$parent.path = $location.path();
+  $scope.reservations = {};
+  $scope.filterBy = "All";
+  $scope.orderByField = 'name';
+
+  ReservationService.history().then(function(reservations) {
+    $scope.reservations = reservations;
+  });
+
+  $scope.filterFunction = function(vehicle) {
+    return true;
+  }
+
+  $scope.selected = 0;
+
+  $scope.select = function(index) {
+    $scope.selected = index;
+  };
+
+}
 ;
 angular.module('angularApp.controllers').controller('ReservationFormCtrl', ReservationFormCtrl)
 ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService', '$modalInstance']
@@ -55891,10 +55960,10 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
 }
 ;
 angular.module('angularApp.controllers').controller('VehicleListCtrl', HomeCtrl);
-HomeCtrl.$inject = ['$scope', 'VehicleService', '$state'];
+HomeCtrl.$inject = ['$scope', 'VehicleService', '$state', '$location'];
 
-function HomeCtrl($scope, VehicleService, $state) {
-
+function HomeCtrl($scope, VehicleService, $state, $location) {
+  $scope.$parent.path = $location.path();
   $scope.vehicles = {};
   $scope.filterBy = "All";
   $scope.orderByField = 'name';

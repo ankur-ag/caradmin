@@ -33,6 +33,16 @@ angular.module('angularApp', [
             });
           }]
         })
+        .state('history', {
+          url: "/history",
+          templateUrl: "history.html",
+          controller: "PastReservationsCtrl"
+        })
+        .state('analytics', {
+          url: "/analytics",
+          templateUrl: "analytics.html",
+          controller: "AnalyticsCtrl"
+        })
     }
   ]);
 

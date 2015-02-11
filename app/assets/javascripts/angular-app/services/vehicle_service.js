@@ -6,7 +6,6 @@ angular.module('angularApp.services')
 
       return {
         getList: function() {
-          var list = [];
           var deferred = $q.defer();
           service.getList().then(function(all_vehicles) {
             vehicles = all_vehicles;

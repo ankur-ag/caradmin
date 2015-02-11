@@ -9,6 +9,11 @@ class ReservationsController < ApplicationController
     render json: @reservations
   end
 
+  def history
+    @history = PastReservation.includes([:vehicle, :member]).all
+    render json: @history, each_serializer: PastReservationSerializer
+  end
+
   # GET /reservations/1
   # GET /reservations/1.json
   def show

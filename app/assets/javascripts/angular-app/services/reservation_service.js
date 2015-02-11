@@ -14,6 +14,13 @@ angular.module('angularApp.services')
           });
           return deferred.promise;
         },
+        history: function() {
+          var deferred = $q.defer();
+          Restangular.all("reservations").customGET("history").then(function(reservations) {
+            deferred.resolve(reservations);
+          });
+          return deferred.promise;
+        },
         getOne: function(id) {
           var deferred = $q.defer();
 

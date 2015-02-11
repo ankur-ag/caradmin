@@ -1,10 +1,3 @@
-<div class="btn-group padding-left">
-  <button class="btn btn-default" ng-model="filterBy" btn-radio="'All'" type="button">All</button>
-  <button class="btn btn-default" ng-model="filterBy" btn-radio="'UnReserved'" type="button">Unreserved</button>
-  <button class="btn btn-default" ng-model="filterBy" btn-radio="'Reserved'" type="button">Reserved</button>
-  <button class="btn btn-default" ng-model="filterBy" btn-radio="'PendingPickup'" type="button">Pending Pickup</button>
-  <button class="btn btn-default" ng-model="filterBy" btn-radio="'PendingReturn'" type="button">Pending Return</button>
-</div>
 <div class="table-responsive">
   <table class="table table-hover">
     <thead>
@@ -38,30 +31,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" ng-click="select($index)" ng-class="{active: $index == selected}">
+      <tr ng-repeat="v in reservations | orderBy:orderByField:reverseSort track by v.id" ng-click="select($index)" ng-class="{active: $index == selected}">
         <td>
-          {{v.id}}
+          {{v.vehicle.id}}
         </td>
         <td>
-          {{v.name}}
+          {{v.vehicle.name}}
         </td>
         <td>
-          {{v.model}}
+          {{v.vehicle.model}}
         </td>
         <td>
-          {{v.reservation.member.email}}
+          {{v.member.email}}
         </td>
         <td>
-          {{v.reservation.start_date | formatDate}}
+          {{v.start_date | formatDate}}
         </td>
         <td>
-          {{v.reservation.occupied_at | formatDate}}
+          {{v.occupied_at | formatDate}}
         </td>
         <td>
-          {{v.reservation.scheduled_to_return_at | formatDate}}
+          {{v.scheduled_to_return_at | formatDate}}
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-<div ui-view></div>

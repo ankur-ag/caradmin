@@ -1,1 +1,20 @@
-<div class="main-view-container" layout-fill ui-view></div>
+<div class="container" ng-controller="HeaderCtrl">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+      <ul class="nav nav-tabs padding-top">
+        <li ng-class="{active:path=='/vehicles' || $state.includes('vehicles')}">
+          <a ui-sref="vehicles">Reservations</a>
+        </li>
+        <li ng-class="{active:path=='/history' || $state.includes('history')}">
+          <a ui-sref="history">History</a>
+        </li>
+        <li ng-class="{active:path=='/analytics' || $state.includes('analytics')}">
+          <a ui-sref="analytics">Analytics</a>
+        </li>
+      </ul>
+
+      <div ui-view></div>
+
+    </div>
+  </div>
+</div>

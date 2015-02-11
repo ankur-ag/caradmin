@@ -1,8 +1,8 @@
 angular.module('angularApp.controllers').controller('VehicleListCtrl', HomeCtrl);
-HomeCtrl.$inject = ['$scope', 'VehicleService', '$state'];
+HomeCtrl.$inject = ['$scope', 'VehicleService', '$state', '$location'];
 
-function HomeCtrl($scope, VehicleService, $state) {
-
+function HomeCtrl($scope, VehicleService, $state, $location) {
+  $scope.$parent.path = $location.path();
   $scope.vehicles = {};
   $scope.filterBy = "All";
   $scope.orderByField = 'name';
