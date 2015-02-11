@@ -1,15 +1,25 @@
 angular.module('angularApp.controllers').controller('VehicleListCtrl', HomeCtrl);
-HomeCtrl.$inject = ['$scope', 'VehicleService', '$state', '$location'];
+HomeCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'ToastService', '$state', '$location', 'vehicles'];
 
-function HomeCtrl($scope, VehicleService, $state, $location) {
+function HomeCtrl($scope, VehicleService, ReservationService, ToastService, $state, $location, vehicles) {
   $scope.$parent.path = $location.path();
-  $scope.vehicles = {};
+  $scope.vehicles = vehicles;
   $scope.filterBy = "All";
   $scope.orderByField = 'name';
 
-  VehicleService.getList().then(function(vehicles) {
-    $scope.vehicles = vehicles;
-  });
+  $scope.occupy = function(vehicle_id, reservation_id) {
+    ReservationService.occupy(reservation_id).then(function() {
+      VehicleService.getOne(vehicle_id);
+      ToastService.show("Occupied!");
+    })
+  }
+
+  $scope.vacate = function(vehicle_id, reservation_id) {
+    ReservationService.vacate(reservation_id).then(function() {
+      VehicleService.getOne(vehicle_id);
+      ToastService.show("Vacated!");
+    });
+  }
 
   $scope.filterFunction = function(vehicle) {
     if ($scope.filterBy == "All") {

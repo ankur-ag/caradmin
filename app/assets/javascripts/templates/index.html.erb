@@ -9,7 +9,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th data-field="id" data-align="right" data-sortable="true">
+        <th data-field="id" data-align="center" data-sortable="true">
           #ID
         </th>
         <th ng-click="orderByField='name'; reverseSort = !reverseSort">
@@ -20,26 +20,27 @@
           Car Model <span ng-show="orderByField == 'model'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.member.email'; reverseSort = !reverseSort">
+        <th ng-click="orderByField='reservation.member.email'; reverseSort = !reverseSort" class="text-align-center">
           Customer Email <span ng-show="orderByField == 'reservation.member.email'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.start_date'; reverseSort = !reverseSort">
+        <th ng-click="orderByField='reservation.start_date'; reverseSort = !reverseSort" class="text-align-center">
           Reserved From <span ng-show="orderByField == 'reservation.start_date'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.occupied_at'; reverseSort = !reverseSort">
+        <th ng-click="orderByField='reservation.occupied_at'; reverseSort = !reverseSort" class="text-align-center">
           Occupied On <span ng-show="orderByField == 'reservation.occupied_at'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.scheduled_to_return_at'; reverseSort = !reverseSort">
+        <th ng-click="orderByField='reservation.scheduled_to_return_at'; reverseSort = !reverseSort" class="text-align-center">
           To be returned on <span ng-show="orderByField == 'reservation.scheduled_to_return_at'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
         </th>
+        <th>Edit/Return</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" ng-click="select($index)" ng-class="{active: $index == selected}">
-        <td>
+      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ng-click="select($index)" ng-class="{active: $index == selected}">
+        <td class="text-align-center">
           {{v.id}}
         </td>
         <td>
@@ -48,17 +49,31 @@
         <td>
           {{v.model}}
         </td>
-        <td>
+        <td class="text-align-center">
           {{v.reservation.member.email}}
         </td>
-        <td>
+        <td class="text-align-center">
           {{v.reservation.start_date | formatDate}}
+          <button type="button" class="btn btn-default btn-circle" ng-show="!v.reservation.start_date" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" title="Reserve">
+            <i class="glyphicon glyphicon-plus"></i>
+          </button>
         </td>
-        <td>
+        <td class="text-align-center">
           {{v.reservation.occupied_at | formatDate}}
+          <button type="button" class="btn btn-default btn-circle" ng-show="v.reservation.id && !v.reservation.occupied_at" title="Occupy"  ng-click="occupy(v.id, v.reservation.id)">
+            <i class="glyphicon glyphicon-log-in"></i>
+          </button>
         </td>
-        <td>
+        <td class="text-align-center">
           {{v.reservation.scheduled_to_return_at | formatDate}}
+        </td>
+        <td class="text-align-center">
+          <button type="button" class="btn btn-info btn-circle" title="Edit" ng-show="v.reservation.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
+            <i class="glyphicon glyphicon-edit"></i>
+          </button>
+          <button type="button" class="btn btn-success btn-circle" title="Return" ng-show="v.reservation.id" ng-click="vacate(v.id, v.reservation.id)">
+            <i class="glyphicon glyphicon-ok"></i>
+          </button>
         </td>
       </tr>
     </tbody>

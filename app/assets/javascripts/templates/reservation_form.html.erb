@@ -27,6 +27,9 @@
       <label class="col-xs-3 control-label">Starting On</label>
       <div class="col-xs-5">
         <input type="text" class="form-control" name="start_date" datepicker-popup="MM-dd-yyyy" ng-model="reservation.start_date" is-open="opened1" close-text="Close" ng-click="open($event,'opened1')" required />
+        <div ng-messages="reservation_form.start_date.$error">
+          <div ng-message="required">Enter a reservation start date</div>
+        </div>
       </div>
     </div>
 

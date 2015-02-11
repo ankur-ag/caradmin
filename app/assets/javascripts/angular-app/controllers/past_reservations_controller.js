@@ -1,15 +1,11 @@
 angular.module('angularApp.controllers').controller('PastReservationsCtrl', PastReservationsCtrl);
-PastReservationsCtrl.$inject = ['$scope', 'ReservationService', '$state', '$location'];
+PastReservationsCtrl.$inject = ['$scope', '$state', '$location', 'reservations'];
 
-function PastReservationsCtrl($scope, ReservationService, $state, $location) {
+function PastReservationsCtrl($scope, $state, $location, reservations) {
   $scope.$parent.path = $location.path();
-  $scope.reservations = {};
+  $scope.reservations = reservations;
   $scope.filterBy = "All";
   $scope.orderByField = 'name';
-
-  ReservationService.history().then(function(reservations) {
-    $scope.reservations = reservations;
-  });
 
   $scope.filterFunction = function(vehicle) {
     return true;

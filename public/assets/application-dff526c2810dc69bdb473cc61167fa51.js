@@ -55614,14 +55614,24 @@ angular.module('angularApp', [
         .state('vehicles', {
           url: "/vehicles",
           templateUrl: "index.html",
-          controller: "VehicleListCtrl"
+          controller: "VehicleListCtrl",
+          resolve: {
+            vehicles: function(VehicleService){
+              return VehicleService.getList();
+            }
+          }
         })
         .state('vehicles.reservation', {
           url: "/:id/reservations/:reservation_id",
           onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
             $modal.open({
               templateUrl: "reservation_form.html",
-              controller: ReservationFormCtrl
+              controller: ReservationFormCtrl,
+              resolve: {
+                vehicle: function(VehicleService) {
+                  return VehicleService.getOne($stateParams.id);
+                }
+              }
             }).result.finally(function() {
               $state.go('^');
             });
@@ -55630,7 +55640,12 @@ angular.module('angularApp', [
         .state('history', {
           url: "/history",
           templateUrl: "history.html",
-          controller: "PastReservationsCtrl"
+          controller: "PastReservationsCtrl",
+          resolve: {
+            reservations: function(ReservationService) {
+              return ReservationService.history();
+            }
+          }
         })
         .state('analytics', {
           url: "/analytics",
@@ -55671,14 +55686,14 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/index.html.erb
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("index.html", '<div class="btn-group padding-left">\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'All\'" type="button">All</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'UnReserved\'" type="button">Unreserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'Reserved\'" type="button">Reserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingPickup\'" type="button">Pending Pickup</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingReturn\'" type="button">Pending Return</button>\n</div>\n<div class="table-responsive">\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th data-field="id" data-align="right" data-sortable="true">\n          #ID\n        </th>\n        <th ng-click="orderByField=\'name\'; reverseSort = !reverseSort">\n          Car Name <span ng-show="orderByField == \'name\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'model\'; reverseSort = !reverseSort">\n          Car Model <span ng-show="orderByField == \'model\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.member.email\'; reverseSort = !reverseSort">\n          Customer Email <span ng-show="orderByField == \'reservation.member.email\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.start_date\'; reverseSort = !reverseSort">\n          Reserved From <span ng-show="orderByField == \'reservation.start_date\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.occupied_at\'; reverseSort = !reverseSort">\n          Occupied On <span ng-show="orderByField == \'reservation.occupied_at\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.scheduled_to_return_at\'; reverseSort = !reverseSort">\n          To be returned on <span ng-show="orderByField == \'reservation.scheduled_to_return_at\'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>\n        </th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" ng-click="select($index)" ng-class="{active: $index == selected}">\n        <td>\n          {{v.id}}\n        </td>\n        <td>\n          {{v.name}}\n        </td>\n        <td>\n          {{v.model}}\n        </td>\n        <td>\n          {{v.reservation.member.email}}\n        </td>\n        <td>\n          {{v.reservation.start_date | formatDate}}\n        </td>\n        <td>\n          {{v.reservation.occupied_at | formatDate}}\n        </td>\n        <td>\n          {{v.reservation.scheduled_to_return_at | formatDate}}\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n<div ui-view></div>')
+  $templateCache.put("index.html", '<div class="btn-group padding-left">\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'All\'" type="button">All</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'UnReserved\'" type="button">Unreserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'Reserved\'" type="button">Reserved</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingPickup\'" type="button">Pending Pickup</button>\n  <button class="btn btn-default" ng-model="filterBy" btn-radio="\'PendingReturn\'" type="button">Pending Return</button>\n</div>\n<div class="table-responsive">\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th data-field="id" data-align="center" data-sortable="true">\n          #ID\n        </th>\n        <th ng-click="orderByField=\'name\'; reverseSort = !reverseSort">\n          Car Name <span ng-show="orderByField == \'name\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'model\'; reverseSort = !reverseSort">\n          Car Model <span ng-show="orderByField == \'model\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.member.email\'; reverseSort = !reverseSort" class="text-align-center">\n          Customer Email <span ng-show="orderByField == \'reservation.member.email\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.start_date\'; reverseSort = !reverseSort" class="text-align-center">\n          Reserved From <span ng-show="orderByField == \'reservation.start_date\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.occupied_at\'; reverseSort = !reverseSort" class="text-align-center">\n          Occupied On <span ng-show="orderByField == \'reservation.occupied_at\'"><span ng-show="!reverseSort">^</span>\n          <span ng-show="reverseSort">v</span>\n        </th>\n        <th ng-click="orderByField=\'reservation.scheduled_to_return_at\'; reverseSort = !reverseSort" class="text-align-center">\n          To be returned on <span ng-show="orderByField == \'reservation.scheduled_to_return_at\'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>\n        </th>\n        <th>Edit/Return</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr ng-repeat="v in vehicles | filter: filterFunction | orderBy:orderByField:reverseSort track by v.id" ng-click="select($index)" ng-class="{active: $index == selected}">\n        <td class="text-align-center">\n          {{v.id}}\n        </td>\n        <td>\n          {{v.name}}\n        </td>\n        <td>\n          {{v.model}}\n        </td>\n        <td class="text-align-center">\n          {{v.reservation.member.email}}\n        </td>\n        <td class="text-align-center">\n          {{v.reservation.start_date | formatDate}}\n          <button type="button" class="btn btn-default btn-circle" ng-show="!v.reservation.start_date" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})" title="Reserve">\n            <i class="glyphicon glyphicon-plus"></i>\n          </button>\n        </td>\n        <td class="text-align-center">\n          {{v.reservation.occupied_at | formatDate}}\n          <button type="button" class="btn btn-default btn-circle" ng-show="v.reservation.id && !v.reservation.occupied_at" title="Occupy"  ng-click="occupy(v.id, v.reservation.id)">\n            <i class="glyphicon glyphicon-log-in"></i>\n          </button>\n        </td>\n        <td class="text-align-center">\n          {{v.reservation.scheduled_to_return_at | formatDate}}\n        </td>\n        <td class="text-align-center">\n          <button type="button" class="btn btn-info btn-circle" title="Edit" ng-show="v.reservation.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">\n            <i class="glyphicon glyphicon-edit"></i>\n          </button>\n          <button type="button" class="btn btn-success btn-circle" title="Return" ng-show="v.reservation.id" ng-click="vacate(v.id, v.reservation.id)">\n            <i class="glyphicon glyphicon-ok"></i>\n          </button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n<div ui-view></div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/reservation_form.html.erb
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("reservation_form.html", '<div class="modal-header">\n  <h4 class="modal-title">{{ reservation.id ? "Update Reservation" : "New Reservation"}}</h4>\n</div>\n\n<div class="modal-body">\n  <!-- The form is placed inside the body of modal -->\n  <form class="form-horizontal" name="reservation_form" novalidate ng-submit="submit(reservation_form.$valid)">\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Vehicle Name</label>\n      <div class="col-xs-5">\n        <input type="text" class="form-control" name="name" ng-model="vehicle.name" required ng-disabled="true" />\n      </div>\n    </div>\n\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Member Email</label>\n      <div class="col-xs-5">\n        <input type="email" class="form-control" name="email" ng-model="member.email" ng-blur="validateEmail()" ng-disabled="reservation.id" required />\n        <div ng-messages="reservation_form.email.$error">\n          <div ng-message="required">Enter an email address</div>\n          <div ng-message="email">Enter a valid email address</div>\n        </div>\n      </div>\n    </div>\n\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Starting On</label>\n      <div class="col-xs-5">\n        <input type="text" class="form-control" name="start_date" datepicker-popup="MM-dd-yyyy" ng-model="reservation.start_date" is-open="opened1" close-text="Close" ng-click="open($event,\'opened1\')" required />\n      </div>\n    </div>\n\n    <div ng-if="reservation.id">\n      <div class="form-group">\n        <label class="col-xs-3 control-label">Occupied On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="occupied_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.occupied_at" is-open="opened2" close-text="Close" ng-click="open($event,\'opened2\')" />\n        </div>\n      </div>\n\n      <div class="form-group">\n        <label class="col-xs-3 control-label">To be Returned On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="scheduled_to_return_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.scheduled_to_return_at" is-open="opened3" close-text="Close" ng-click="open($event,\'opened3\')" />\n        </div>\n      </div>\n\n      <div class="form-group">\n        <label class="col-xs-3 control-label">Returned On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="returned_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.returned_at" is-open="opened4" close-text="Close" ng-click="open($event,\'opened4\')" />\n        </div>\n      </div>\n    </div>\n\n    <div class="form-group">\n      <div class="col-xs-5 col-xs-offset-3">\n        <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>\n        <button type="submit" class="btn btn-primary">Save</button>\n      </div>\n    </div>\n  </form>\n</div>')
+  $templateCache.put("reservation_form.html", '<div class="modal-header">\n  <h4 class="modal-title">{{ reservation.id ? "Update Reservation" : "New Reservation"}}</h4>\n</div>\n\n<div class="modal-body">\n  <!-- The form is placed inside the body of modal -->\n  <form class="form-horizontal" name="reservation_form" novalidate ng-submit="submit(reservation_form.$valid)">\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Vehicle Name</label>\n      <div class="col-xs-5">\n        <input type="text" class="form-control" name="name" ng-model="vehicle.name" required ng-disabled="true" />\n      </div>\n    </div>\n\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Member Email</label>\n      <div class="col-xs-5">\n        <input type="email" class="form-control" name="email" ng-model="member.email" ng-blur="validateEmail()" ng-disabled="reservation.id" required />\n        <div ng-messages="reservation_form.email.$error">\n          <div ng-message="required">Enter an email address</div>\n          <div ng-message="email">Enter a valid email address</div>\n        </div>\n      </div>\n    </div>\n\n    <div class="form-group" show-errors>\n      <label class="col-xs-3 control-label">Starting On</label>\n      <div class="col-xs-5">\n        <input type="text" class="form-control" name="start_date" datepicker-popup="MM-dd-yyyy" ng-model="reservation.start_date" is-open="opened1" close-text="Close" ng-click="open($event,\'opened1\')" required />\n        <div ng-messages="reservation_form.start_date.$error">\n          <div ng-message="required">Enter a reservation start date</div>\n        </div>\n      </div>\n    </div>\n\n    <div ng-if="reservation.id">\n      <div class="form-group">\n        <label class="col-xs-3 control-label">Occupied On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="occupied_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.occupied_at" is-open="opened2" close-text="Close" ng-click="open($event,\'opened2\')" />\n        </div>\n      </div>\n\n      <div class="form-group">\n        <label class="col-xs-3 control-label">To be Returned On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="scheduled_to_return_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.scheduled_to_return_at" is-open="opened3" close-text="Close" ng-click="open($event,\'opened3\')" />\n        </div>\n      </div>\n\n      <div class="form-group">\n        <label class="col-xs-3 control-label">Returned On</label>\n        <div class="col-xs-5">\n          <input type="text" class="form-control" name="returned_at" datepicker-popup="MM-dd-yyyy" ng-model="reservation.returned_at" is-open="opened4" close-text="Close" ng-click="open($event,\'opened4\')" />\n        </div>\n      </div>\n    </div>\n\n    <div class="form-group">\n      <div class="col-xs-5 col-xs-offset-3">\n        <button type="button" class="btn btn-warning" ng-click="cancel()">Cancel</button>\n        <button type="submit" class="btn btn-primary">Save</button>\n      </div>\n    </div>\n  </form>\n</div>')
 }]);
 
 angular.module('angularApp.services')
@@ -55775,14 +55790,17 @@ angular.module('angularApp.services')
       var reservations = [];
 
       return {
-        getList: function() {
-          var list = [];
-          var deferred = $q.defer();
-          service.getList().then(function(reservations) {
-            reservations = reservations;
-            deferred.resolve(reservations);
+        occupy: function(id) {
+          return Restangular.one("reservations", id).customPUT({
+            reservation: {
+              occupied_at: new Date()
+            }
           });
-          return deferred.promise;
+        },
+        vacate: function(id) {
+          return Restangular.one("reservations", id).customPUT({
+            returned_at: new Date()
+          });
         },
         history: function() {
           var deferred = $q.defer();
@@ -55838,7 +55856,6 @@ angular.module('angularApp.services')
             angular.forEach(vehicles, function(v, index) {
               if (v.id === vehicle.id) {
                 vehicles[index] = vehicle;
-                console.log(vehicle);
               }
             });
             deferred.resolve(vehicle);
@@ -55877,17 +55894,13 @@ function HeaderCtrl($scope, $location) {
 }
 ;
 angular.module('angularApp.controllers').controller('PastReservationsCtrl', PastReservationsCtrl);
-PastReservationsCtrl.$inject = ['$scope', 'ReservationService', '$state', '$location'];
+PastReservationsCtrl.$inject = ['$scope', '$state', '$location', 'reservations'];
 
-function PastReservationsCtrl($scope, ReservationService, $state, $location) {
+function PastReservationsCtrl($scope, $state, $location, reservations) {
   $scope.$parent.path = $location.path();
-  $scope.reservations = {};
+  $scope.reservations = reservations;
   $scope.filterBy = "All";
   $scope.orderByField = 'name';
-
-  ReservationService.history().then(function(reservations) {
-    $scope.reservations = reservations;
-  });
 
   $scope.filterFunction = function(vehicle) {
     return true;
@@ -55902,21 +55915,19 @@ function PastReservationsCtrl($scope, ReservationService, $state, $location) {
 }
 ;
 angular.module('angularApp.controllers').controller('ReservationFormCtrl', ReservationFormCtrl)
-ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService', '$modalInstance']
+ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$stateParams', 'ToastService', '$modalInstance', 'vehicle']
 
-function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $state, $stateParams, ToastService, $modalInstance) {
+function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $stateParams, ToastService, $modalInstance, vehicle) {
   $scope.vehicle = {};
   $scope.member = {};
   $scope.reservation = {};
 
-  VehicleService.getOne($stateParams.id).then(function(vehicle) {
-    $scope.vehicle = vehicle;
-    $scope.reservation.vehicle_id = $scope.vehicle.id;
-    if ($stateParams.reservation_id) {
-      $scope.reservation = angular.copy(vehicle.reservation);
-      $scope.member = $scope.vehicle.reservation.member;
-    }
-  })
+  $scope.vehicle = vehicle;
+  $scope.reservation.vehicle_id = $scope.vehicle.id;
+  if ($stateParams.reservation_id) {
+    $scope.reservation = angular.copy(vehicle.reservation);
+    $scope.member = $scope.vehicle.reservation.member;
+  }
 
   $scope.validateEmail = function() {
     MemberService.getOneByEmail($scope.member.email).then(function(member) {
@@ -55951,26 +55962,35 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
     $scope[opened] = true;
   };
 
-  $scope.dateOptions = {
-  };
+  $scope.dateOptions = {};
 
-  $scope.cancel = function () {
+  $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
 }
 ;
 angular.module('angularApp.controllers').controller('VehicleListCtrl', HomeCtrl);
-HomeCtrl.$inject = ['$scope', 'VehicleService', '$state', '$location'];
+HomeCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'ToastService', '$state', '$location', 'vehicles'];
 
-function HomeCtrl($scope, VehicleService, $state, $location) {
+function HomeCtrl($scope, VehicleService, ReservationService, ToastService, $state, $location, vehicles) {
   $scope.$parent.path = $location.path();
-  $scope.vehicles = {};
+  $scope.vehicles = vehicles;
   $scope.filterBy = "All";
   $scope.orderByField = 'name';
 
-  VehicleService.getList().then(function(vehicles) {
-    $scope.vehicles = vehicles;
-  });
+  $scope.occupy = function(vehicle_id, reservation_id) {
+    ReservationService.occupy(reservation_id).then(function() {
+      VehicleService.getOne(vehicle_id);
+      ToastService.show("Occupied!");
+    })
+  }
+
+  $scope.vacate = function(vehicle_id, reservation_id) {
+    ReservationService.vacate(reservation_id).then(function() {
+      VehicleService.getOne(vehicle_id);
+      ToastService.show("Vacated!");
+    });
+  }
 
   $scope.filterFunction = function(vehicle) {
     if ($scope.filterBy == "All") {

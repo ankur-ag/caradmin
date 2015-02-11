@@ -5,14 +5,17 @@ angular.module('angularApp.services')
       var reservations = [];
 
       return {
-        getList: function() {
-          var list = [];
-          var deferred = $q.defer();
-          service.getList().then(function(reservations) {
-            reservations = reservations;
-            deferred.resolve(reservations);
+        occupy: function(id) {
+          return Restangular.one("reservations", id).customPUT({
+            reservation: {
+              occupied_at: new Date()
+            }
           });
-          return deferred.promise;
+        },
+        vacate: function(id) {
+          return Restangular.one("reservations", id).customPUT({
+            returned_at: new Date()
+          });
         },
         history: function() {
           var deferred = $q.defer();

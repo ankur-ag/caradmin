@@ -19,7 +19,6 @@ angular.module('angularApp.services')
             angular.forEach(vehicles, function(v, index) {
               if (v.id === vehicle.id) {
                 vehicles[index] = vehicle;
-                console.log(vehicle);
               }
             });
             deferred.resolve(vehicle);

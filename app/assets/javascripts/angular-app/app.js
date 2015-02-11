@@ -20,14 +20,24 @@ angular.module('angularApp', [
         .state('vehicles', {
           url: "/vehicles",
           templateUrl: "index.html",
-          controller: "VehicleListCtrl"
+          controller: "VehicleListCtrl",
+          resolve: {
+            vehicles: function(VehicleService){
+              return VehicleService.getList();
+            }
+          }
         })
         .state('vehicles.reservation', {
           url: "/:id/reservations/:reservation_id",
           onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
             $modal.open({
               templateUrl: "reservation_form.html",
-              controller: ReservationFormCtrl
+              controller: ReservationFormCtrl,
+              resolve: {
+                vehicle: function(VehicleService) {
+                  return VehicleService.getOne($stateParams.id);
+                }
+              }
             }).result.finally(function() {
               $state.go('^');
             });
@@ -36,7 +46,12 @@ angular.module('angularApp', [
         .state('history', {
           url: "/history",
           templateUrl: "history.html",
-          controller: "PastReservationsCtrl"
+          controller: "PastReservationsCtrl",
+          resolve: {
+            reservations: function(ReservationService) {
+              return ReservationService.history();
+            }
+          }
         })
         .state('analytics', {
           url: "/analytics",

@@ -1,19 +1,17 @@
 angular.module('angularApp.controllers').controller('ReservationFormCtrl', ReservationFormCtrl)
-ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$state', '$stateParams', 'ToastService', '$modalInstance']
+ReservationFormCtrl.$inject = ['$scope', 'VehicleService', 'ReservationService', 'MemberService', '$stateParams', 'ToastService', '$modalInstance', 'vehicle']
 
-function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $state, $stateParams, ToastService, $modalInstance) {
+function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberService, $stateParams, ToastService, $modalInstance, vehicle) {
   $scope.vehicle = {};
   $scope.member = {};
   $scope.reservation = {};
 
-  VehicleService.getOne($stateParams.id).then(function(vehicle) {
-    $scope.vehicle = vehicle;
-    $scope.reservation.vehicle_id = $scope.vehicle.id;
-    if ($stateParams.reservation_id) {
-      $scope.reservation = angular.copy(vehicle.reservation);
-      $scope.member = $scope.vehicle.reservation.member;
-    }
-  })
+  $scope.vehicle = vehicle;
+  $scope.reservation.vehicle_id = $scope.vehicle.id;
+  if ($stateParams.reservation_id) {
+    $scope.reservation = angular.copy(vehicle.reservation);
+    $scope.member = $scope.vehicle.reservation.member;
+  }
 
   $scope.validateEmail = function() {
     MemberService.getOneByEmail($scope.member.email).then(function(member) {
@@ -48,10 +46,9 @@ function ReservationFormCtrl($scope, VehicleService, ReservationService, MemberS
     $scope[opened] = true;
   };
 
-  $scope.dateOptions = {
-  };
+  $scope.dateOptions = {};
 
-  $scope.cancel = function () {
+  $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
 }
