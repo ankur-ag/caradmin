@@ -30,8 +30,10 @@ function HomeCtrl($scope, VehicleService, ReservationService, ToastService, $sta
       return true;
     } else if ($scope.filterBy == "PendingPickup" && vehicle.reservation && !vehicle.reservation.occupied_at) {
       return true;
-    } else if ($scope.filterBy == "PendingReturn" && vehicle.reservation && vehicle.reservation.occupied_at && !vehicle.reservation.returned_at) {
-      return true;
+    } else if ($scope.filterBy == "PendingReturn" && vehicle.reservation && vehicle.reservation.scheduled_to_return_at) {
+      var return_date = new Date(vehicle.reservation.scheduled_to_return_at);
+      var today = new Date();
+      return today > return_date;
     } else {
       return false;
     }
