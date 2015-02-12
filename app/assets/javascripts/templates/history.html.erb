@@ -31,27 +31,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="v in reservations | orderBy:orderByField:reverseSort track by v.id" ng-click="select($index)" ng-class="{active: $index == selected}">
+      <tr ng-repeat="r in reservations | orderBy:orderByField:reverseSort track by r.id" ng-click="select($index)" ng-class="{active: $index == selected}">
         <td>
-          {{v.vehicle.id}}
+          {{r.vehicle.id}}
         </td>
         <td>
-          {{v.vehicle.name}}
+          {{r.vehicle.name}}
         </td>
         <td>
-          {{v.vehicle.model}}
+          {{r.vehicle.model}}
         </td>
         <td>
-          {{v.member.email}}
+          {{r.member.email}}
         </td>
         <td>
-          {{v.start_date | formatDate}}
+          {{r.start_date | formatDate}}
         </td>
         <td>
-          {{v.occupied_at | formatDate}}
+          {{r.occupied_at | formatDate}}
         </td>
         <td>
-          {{v.scheduled_to_return_at | formatDate}}
+          {{r.scheduled_to_return_at | formatDate}}
         </td>
       </tr>
     </tbody>
