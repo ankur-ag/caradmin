@@ -26,17 +26,6 @@ angular.module('angularApp.services')
             deferred.reject(response);
           });
           return deferred.promise;
-        },
-        save: function(vehicle) {
-          if (vehicle.id) {
-            return vehicle.put().then(function(vehicle) {
-              return vehicle;
-            });
-          } else {
-            return service.post(vehicle).then(function(vehicle) {
-              return vehicle;
-            })
-          }
         }
       };
     }

@@ -2,7 +2,6 @@ angular.module('angularApp.services')
   .factory('ReservationService', ['Restangular', '$q', '$filter',
     function(Restangular, $q, $filter) {
       var service = Restangular.service('reservations');
-      var reservations = [];
 
       return {
         occupy: function(id) {
@@ -18,11 +17,7 @@ angular.module('angularApp.services')
           });
         },
         history: function() {
-          var deferred = $q.defer();
-          Restangular.all("reservations").customGET("history").then(function(reservations) {
-            deferred.resolve(reservations);
-          });
-          return deferred.promise;
+          return Restangular.all("reservations").customGET("history");
         },
         getOne: function(id) {
           var deferred = $q.defer();
@@ -41,9 +36,7 @@ angular.module('angularApp.services')
               return reservation;
             });
           } else {
-            return service.post(reservation).then(function(reservation) {
-              return reservation;
-            })
+            return service.post(reservation);
           }
         }
       };

@@ -5,28 +5,28 @@
         <th data-field="id" data-align="right" data-sortable="true">
           #ID
         </th>
-        <th ng-click="orderByField='name'; reverseSort = !reverseSort">
-          Car Name <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span>
+        <th ng-click="orderByField='vehicle.name'; reverseSort = !reverseSort">
+          Car Name <span ng-show="orderByField == 'vehicle.name'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='model'; reverseSort = !reverseSort">
-          Car Model <span ng-show="orderByField == 'model'"><span ng-show="!reverseSort">^</span>
+        <th ng-click="orderByField='vehicle.model'; reverseSort = !reverseSort">
+          Car Model <span ng-show="orderByField == 'vehicle.model'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.member.email'; reverseSort = !reverseSort">
-          Customer Email <span ng-show="orderByField == 'reservation.member.email'"><span ng-show="!reverseSort">^</span>
+        <th ng-click="orderByField='member.email'; reverseSort = !reverseSort">
+          Customer Email <span ng-show="orderByField == 'member.email'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.start_date'; reverseSort = !reverseSort">
-          Reserved From <span ng-show="orderByField == 'reservation.start_date'"><span ng-show="!reverseSort">^</span>
+        <th ng-click="orderByField='start_date'; reverseSort = !reverseSort">
+          Reserved From <span ng-show="orderByField == 'start_date'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.occupied_at'; reverseSort = !reverseSort">
-          Occupied On <span ng-show="orderByField == 'reservation.occupied_at'"><span ng-show="!reverseSort">^</span>
+        <th ng-click="orderByField='occupied_at'; reverseSort = !reverseSort">
+          Occupied On <span ng-show="orderByField == 'occupied_at'"><span ng-show="!reverseSort">^</span>
           <span ng-show="reverseSort">v</span>
         </th>
-        <th ng-click="orderByField='reservation.scheduled_to_return_at'; reverseSort = !reverseSort">
-          To be returned on <span ng-show="orderByField == 'reservation.scheduled_to_return_at'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+        <th ng-click="orderByField='scheduled_to_return_at'; reverseSort = !reverseSort">
+          To be returned on <span ng-show="orderByField == 'scheduled_to_return_at'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
         </th>
       </tr>
     </thead>

@@ -68,7 +68,7 @@
           {{v.reservation.scheduled_to_return_at | formatDate}}
         </td>
         <td class="text-align-center">
-          <button type="button" class="btn btn-info btn-circle" title="Edit" ng-show="v.reservation.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
+          <button type="button" class="btn btn-primary btn-circle" title="Edit" ng-show="v.reservation.id" ui-sref="vehicles.reservation({id: v.id, reservation_id: v.reservation.id})">
             <i class="glyphicon glyphicon-edit"></i>
           </button>
           <button type="button" class="btn btn-success btn-circle" title="Return" ng-show="v.reservation.id" ng-click="vacate(v.id, v.reservation.id)">
